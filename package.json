@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "bun run src/cli/index.ts",
-    "build": "bun build src/cli/index.ts --compile --outfile dist/scripts-sync",
+    "build": "bun build src/cli/index.ts --compile --outfile dist/scripts-sync && bun build src/cli/postinstall.ts --compile --outfile dist/postinstall",
+    "postinstall": "node dist/postinstall 2>/dev/null || true",
     "worker:dev": "cd worker && wrangler dev",
     "worker:deploy": "cd worker && wrangler deploy",
     "worker:db:init": "cd worker && wrangler d1 execute scripts-sync-db --local --file=src/db/schema.sql"

@@ -3,6 +3,7 @@ import { pullScript, pullAll } from '../../lib/sync';
 import { getApiClient } from '../../lib/api';
 import { printSuccess, printError, printSyncResult } from '../ui/table';
 import { choose } from '../ui/menu';
+import { printBanner } from '../ui/ascii';
 
 export async function pullCommand(name?: string): Promise<void> {
   try {
@@ -10,6 +11,7 @@ export async function pullCommand(name?: string): Promise<void> {
       // Pull specific script
       console.log(chalk.dim(`  Pulling '${name}'...`));
       await pullScript(name);
+      printBanner('update');
       printSuccess(`Pulled '${name}' from server.`);
     } else {
       // Show selection or pull all
@@ -39,10 +41,14 @@ export async function pullCommand(name?: string): Promise<void> {
       if (selected === '__all__') {
         console.log(chalk.dim('  Pulling all scripts...'));
         const result = await pullAll();
+        if (result.pulled > 0) {
+          printBanner('update');
+        }
         printSyncResult(result);
       } else {
         console.log(chalk.dim(`  Pulling '${selected}'...`));
         await pullScript(selected);
+        printBanner('update');
         printSuccess(`Pulled '${selected}' from server.`);
       }
     }

@@ -5,6 +5,7 @@ import { isCached } from '../../lib/cache';
 import { printSuccess, printError, printWarning } from '../ui/table';
 import { choose } from '../ui/menu';
 import { getApiClient } from '../../lib/api';
+import { printBanner } from '../ui/ascii';
 
 export async function installCommand(name?: string): Promise<void> {
   try {
@@ -49,6 +50,7 @@ export async function installCommand(name?: string): Promise<void> {
     // Install
     const success = installScript(scriptName);
     if (success) {
+      printBanner('install');
       printSuccess(`Installed '${scriptName}'. You can now run it with: ${chalk.cyan(scriptName)}`);
     } else {
       printError(`Failed to install '${scriptName}'.`);

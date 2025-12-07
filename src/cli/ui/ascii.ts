@@ -1,18 +1,26 @@
 import chalk from 'chalk';
 
-export const BANNER_LARGE = `
-${chalk.cyan('╔═══════════════════════════════════════════════════════════════════╗')}
-${chalk.cyan('║')}                                                                   ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('░██████╗░█████╗░██████╗░██╗██████╗░████████╗░██████╗')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝██╔════╝')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('╚█████╗░██║░░╚═╝██████╔╝██║██████╔╝░░░██║░░░╚█████╗░')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('░╚═══██╗██║░░██╗██╔══██╗██║██╔═══╝░░░░██║░░░░╚═══██╗')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('██████╔╝╚█████╔╝██║░░██║██║██║░░░░░░░░██║░░░██████╔╝')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('╚═════╝░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░░░░╚═╝░░░╚═════╝░')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}                                                                   ${chalk.cyan('║')}
-${chalk.cyan('║')}               ${chalk.yellow('⚡')} ${chalk.bold('SYNC')} ${chalk.dim('• POWERED BY')} ${chalk.magenta.bold('LOGOS FLUX')} ${chalk.yellow('⚡')}               ${chalk.cyan('║')}
-${chalk.cyan('╚═══════════════════════════════════════════════════════════════════╝')}
+const VERSION = '0.1.0';
+
+export const LOGOS_FLUX_BANNER = `
+${chalk.magentaBright('        ██╗      ██████╗  ██████╗  ██████╗ ███████╗')}
+${chalk.magentaBright('        ██║     ██╔═══██╗██╔════╝ ██╔═══██╗██╔════╝')}
+${chalk.magenta('        ██║     ██║   ██║██║  ███╗██║   ██║███████╗')}
+${chalk.magenta('        ██║     ██║   ██║██║   ██║██║   ██║╚════██║')}
+${chalk.magenta('        ███████╗╚██████╔╝╚██████╔╝╚██████╔╝███████║')}
+${chalk.magenta('        ╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝')}
+
+${chalk.cyanBright('                ███████╗██╗     ██╗   ██╗██╗  ██╗')}
+${chalk.cyanBright('                ██╔════╝██║     ██║   ██║╚██╗██╔╝')}
+${chalk.cyan('                █████╗  ██║     ██║   ██║ ╚███╔╝ ')}
+${chalk.cyan('                ██╔══╝  ██║     ██║   ██║ ██╔██╗ ')}
+${chalk.cyan('                ██║     ███████╗╚██████╔╝██╔╝ ██╗')}
+${chalk.cyan('                ╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝')}
+
+${chalk.dim('                           Φ⥁○⧖∵')}
 `;
+
+export const BANNER_LARGE = LOGOS_FLUX_BANNER;
 
 export const BANNER_SMALL = `
 ${chalk.cyan('┌─────────────────────────────────────┐')}
@@ -21,33 +29,45 @@ ${chalk.cyan('└─────────────────────
 `;
 
 export const BANNER_INSTALL = `
-${chalk.cyan('╔═══════════════════════════════════════════════════════════════════╗')}
-${chalk.cyan('║')}                                                                   ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('░██████╗░█████╗░██████╗░██╗██████╗░████████╗░██████╗')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝██╔════╝')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('╚█████╗░██║░░╚═╝██████╔╝██║██████╔╝░░░██║░░░╚█████╗░')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('░╚═══██╗██║░░██╗██╔══██╗██║██╔═══╝░░░░██║░░░░╚═══██╗')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('██████╔╝╚█████╔╝██║░░██║██║██║░░░░░░░░██║░░░██████╔╝')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('╚═════╝░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░░░░╚═╝░░░╚═════╝░')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}                                                                   ${chalk.cyan('║')}
-${chalk.cyan('║')}                    ${chalk.green.bold('INSTALLATION')}                              ${chalk.cyan('║')}
-${chalk.cyan('║')}               ${chalk.yellow('⚡')} ${chalk.bold('SYNC')} ${chalk.dim('• POWERED BY')} ${chalk.magenta.bold('LOGOS FLUX')} ${chalk.yellow('⚡')}               ${chalk.cyan('║')}
-${chalk.cyan('╚═══════════════════════════════════════════════════════════════════╝')}
+${chalk.magentaBright('        ██╗      ██████╗  ██████╗  ██████╗ ███████╗')}
+${chalk.magentaBright('        ██║     ██╔═══██╗██╔════╝ ██╔═══██╗██╔════╝')}
+${chalk.magenta('        ██║     ██║   ██║██║  ███╗██║   ██║███████╗')}
+${chalk.magenta('        ██║     ██║   ██║██║   ██║██║   ██║╚════██║')}
+${chalk.magenta('        ███████╗╚██████╔╝╚██████╔╝╚██████╔╝███████║')}
+${chalk.magenta('        ╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝')}
+
+${chalk.cyanBright('                ███████╗██╗     ██╗   ██╗██╗  ██╗')}
+${chalk.cyanBright('                ██╔════╝██║     ██║   ██║╚██╗██╔╝')}
+${chalk.cyan('                █████╗  ██║     ██║   ██║ ╚███╔╝ ')}
+${chalk.cyan('                ██╔══╝  ██║     ██║   ██║ ██╔██╗ ')}
+${chalk.cyan('                ██║     ███████╗╚██████╔╝██╔╝ ██╗')}
+${chalk.cyan('                ╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝')}
+
+${chalk.dim('                           Φ⥁○⧖∵')}
+
+${chalk.dim(`                    ⚡ scripts-sync v${VERSION} ⚡`)}
+${chalk.green.bold('                        INSTALLED')}
 `;
 
 export const BANNER_UPDATE = `
-${chalk.cyan('╔═══════════════════════════════════════════════════════════════════╗')}
-${chalk.cyan('║')}                                                                   ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('░██████╗░█████╗░██████╗░██╗██████╗░████████╗░██████╗')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝██╔════╝')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('╚█████╗░██║░░╚═╝██████╔╝██║██████╔╝░░░██║░░░╚█████╗░')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('░╚═══██╗██║░░██╗██╔══██╗██║██╔═══╝░░░░██║░░░░╚═══██╗')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('██████╔╝╚█████╔╝██║░░██║██║██║░░░░░░░░██║░░░██████╔╝')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}   ${chalk.bold.white('╚═════╝░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░░░░╚═╝░░░╚═════╝░')}        ${chalk.cyan('║')}
-${chalk.cyan('║')}                                                                   ${chalk.cyan('║')}
-${chalk.cyan('║')}                      ${chalk.blue.bold('UPDATE')}                                  ${chalk.cyan('║')}
-${chalk.cyan('║')}               ${chalk.yellow('⚡')} ${chalk.bold('SYNC')} ${chalk.dim('• POWERED BY')} ${chalk.magenta.bold('LOGOS FLUX')} ${chalk.yellow('⚡')}               ${chalk.cyan('║')}
-${chalk.cyan('╚═══════════════════════════════════════════════════════════════════╝')}
+${chalk.magentaBright('        ██╗      ██████╗  ██████╗  ██████╗ ███████╗')}
+${chalk.magentaBright('        ██║     ██╔═══██╗██╔════╝ ██╔═══██╗██╔════╝')}
+${chalk.magenta('        ██║     ██║   ██║██║  ███╗██║   ██║███████╗')}
+${chalk.magenta('        ██║     ██║   ██║██║   ██║██║   ██║╚════██║')}
+${chalk.magenta('        ███████╗╚██████╔╝╚██████╔╝╚██████╔╝███████║')}
+${chalk.magenta('        ╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝')}
+
+${chalk.cyanBright('                ███████╗██╗     ██╗   ██╗██╗  ██╗')}
+${chalk.cyanBright('                ██╔════╝██║     ██║   ██║╚██╗██╔╝')}
+${chalk.cyan('                █████╗  ██║     ██║   ██║ ╚███╔╝ ')}
+${chalk.cyan('                ██╔══╝  ██║     ██║   ██║ ██╔██╗ ')}
+${chalk.cyan('                ██║     ███████╗╚██████╔╝██╔╝ ██╗')}
+${chalk.cyan('                ╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝')}
+
+${chalk.dim('                           Φ⥁○⧖∵')}
+
+${chalk.dim(`                    ⚡ scripts-sync v${VERSION} ⚡`)}
+${chalk.blue.bold('                         UPDATED')}
 `;
 
 export function printBanner(type: 'large' | 'small' | 'install' | 'update' = 'small'): void {
