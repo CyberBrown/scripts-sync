@@ -180,4 +180,13 @@ export const MAIN_MENU_OPTIONS: MenuOption[] = [
   { label: 'add', value: 'add', description: 'Create new script' },
   { label: 'remove', value: 'remove', description: 'Delete a script' },
   { label: 'config', value: 'config', description: 'Configure settings' },
+  { label: 'extras', value: 'extras', description: 'Kando menu & other tools' },
+];
+
+export const EXTRAS_MENU_OPTIONS: MenuOption[] = [
+  { label: 'kando setup', value: 'kando-setup', description: 'Install & configure Kando pie menu' },
+  { label: 'kando push', value: 'kando-push', description: 'Upload Kando config to cloud' },
+  { label: 'kando pull', value: 'kando-pull', description: 'Download Kando config from cloud' },
+  { label: 'mouse mapping', value: 'mouse-setup', description: 'Map middle mouse to Ctrl+Space' },
+  { label: 'back', value: 'back', description: 'Return to main menu' },
 ];

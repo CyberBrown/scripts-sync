@@ -19,8 +19,9 @@ import { runCommand } from './commands/run';
 import { sourceCommand } from './commands/source';
 import { configCommand } from './commands/config';
 import { authCommand } from './commands/auth';
+import { extrasCommand } from './commands/extras';
 
-const VERSION = '0.1.0';
+const VERSION = '0.2.0';
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -126,6 +127,12 @@ async function main(): Promise<void> {
       await authCommand();
       break;
 
+    case 'extras':
+    case 'bonus':
+    case 'kando':
+      await extrasCommand();
+      break;
+
     default:
       printError(`Unknown command: ${command}`);
       console.log(chalk.dim('  Run `scripts-sync --help` for usage.'));
@@ -167,6 +174,9 @@ async function interactiveMenu(): Promise<void> {
     case 'config':
       await configCommand();
       break;
+    case 'extras':
+      await extrasCommand();
+      break;
   }
 }
 
@@ -191,6 +201,7 @@ function printHelp(): void {
   console.log(`    ${chalk.cyan('source')} <name>     Output for eval (functions/aliases)`);
   console.log(`    ${chalk.cyan('config')}            Configure settings`);
   console.log(`    ${chalk.cyan('auth')}              Browser-based authentication`);
+  console.log(`    ${chalk.cyan('extras')}            Kando pie menu & other tools`);
   console.log();
 
   console.log(chalk.bold('  Examples:'));

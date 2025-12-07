@@ -1,6 +1,6 @@
 {
   "name": "scripts-sync",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Cloud-synced script manager - edit on one terminal, available everywhere",
   "type": "module",
   "scripts": {
