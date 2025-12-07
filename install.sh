@@ -172,6 +172,221 @@ EOF
   log_success "Configuration saved"
 }
 
+# Setup Kando pie menu
+setup_kando() {
+  echo ""
+  echo -e "${BOLD}  Kando Pie Menu Setup${NC}"
+  echo -e "${DIM}  ─────────────────────${NC}"
+  echo ""
+
+  # Check if Kando is installed
+  if ! flatpak list 2>/dev/null | grep -q "menu.kando.Kando"; then
+    echo -e "${DIM}  Installing Kando via Flatpak...${NC}"
+    flatpak install -y flathub menu.kando.Kando 2>/dev/null || {
+      log_warning "Could not install Kando. Install manually from flathub."
+      return 1
+    }
+  fi
+
+  local KANDO_CONFIG="$HOME/.var/app/menu.kando.Kando/config/kando"
+  mkdir -p "$KANDO_CONFIG/icon-themes/custom"
+
+  # Download Proton Pass icon if available
+  if [ -f "/usr/share/pixmaps/proton-pass.png" ]; then
+    cp /usr/share/pixmaps/proton-pass.png "$KANDO_CONFIG/icon-themes/custom/proton-pass.svg" 2>/dev/null
+  fi
+
+  # Create menus.json with useful defaults
+  cat > "$KANDO_CONFIG/menus.json" << 'KANDOEOF'
+{
+  "menus": [
+    {
+      "shortcut": "Control+Space",
+      "shortcutID": "main-menu",
+      "centered": false,
+      "root": {
+        "type": "submenu",
+        "name": "Quick Menu",
+        "icon": "apps",
+        "iconTheme": "material-symbols-rounded",
+        "children": [
+          {
+            "type": "command",
+            "name": "Terminal",
+            "icon": "terminal",
+            "iconTheme": "material-symbols-rounded",
+            "data": {
+              "command": "x-terminal-emulator"
+            }
+          },
+          {
+            "type": "command",
+            "name": "Browser",
+            "icon": "globe",
+            "iconTheme": "material-symbols-rounded",
+            "data": {
+              "command": "x-www-browser"
+            }
+          },
+          {
+            "type": "command",
+            "name": "Files",
+            "icon": "folder_open",
+            "iconTheme": "material-symbols-rounded",
+            "data": {
+              "command": "xdg-open ~"
+            }
+          },
+          {
+            "type": "command",
+            "name": "Settings",
+            "icon": "settings",
+            "iconTheme": "material-symbols-rounded",
+            "data": {
+              "command": "gnome-control-center"
+            }
+          },
+          {
+            "type": "submenu",
+            "name": "Web Links",
+            "icon": "public",
+            "iconTheme": "material-symbols-rounded",
+            "children": [
+              {
+                "type": "uri",
+                "name": "GitHub",
+                "icon": "github",
+                "iconTheme": "simple-icons",
+                "data": {
+                  "uri": "https://github.com"
+                }
+              },
+              {
+                "type": "uri",
+                "name": "Claude",
+                "icon": "anthropic",
+                "iconTheme": "simple-icons",
+                "data": {
+                  "uri": "https://claude.ai/new"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "collections": []
+}
+KANDOEOF
+
+  log_success "Kando configured (Ctrl+Space to open)"
+}
+
+# Setup middle mouse button mapping
+setup_mouse_mapping() {
+  echo ""
+  echo -e "${BOLD}  Mouse Button Mapping${NC}"
+  echo -e "${DIM}  ─────────────────────${NC}"
+  echo ""
+
+  # Check if input-remapper is installed
+  if ! command -v input-remapper-control &> /dev/null; then
+    echo -e "${DIM}  Installing input-remapper...${NC}"
+    sudo apt install -y input-remapper 2>/dev/null || {
+      log_warning "Could not install input-remapper. Install manually."
+      return 1
+    }
+  fi
+
+  # Detect mouse device
+  local mouse_name
+  mouse_name=$(grep -E "^N:" /proc/bus/input/devices | grep -i mouse | head -1 | sed 's/N: Name="//' | sed 's/"//')
+
+  if [ -z "$mouse_name" ]; then
+    mouse_name=$(grep -B1 "mouse0" /proc/bus/input/devices | grep "N: Name" | sed 's/N: Name="//' | sed 's/"//')
+  fi
+
+  if [ -z "$mouse_name" ]; then
+    log_warning "Could not detect mouse. Configure manually with input-remapper-gtk"
+    return 1
+  fi
+
+  log_info "Detected mouse: $mouse_name"
+
+  # Create config directories
+  mkdir -p "$HOME/.config/input-remapper-2/presets/$mouse_name"
+  sudo mkdir -p "/root/.config/input-remapper-2/presets/$mouse_name" 2>/dev/null
+
+  # Create preset for middle click -> Ctrl+Space
+  local preset='{
+    "input_combination": [
+      {
+        "type": 1,
+        "code": 274,
+        "origin_hash": "'"$mouse_name"'"
+      }
+    ],
+    "target_uinput": "keyboard",
+    "output_symbol": "KEY_LEFTCTRL + KEY_SPACE",
+    "mapping_type": "key_macro"
+  }'
+
+  echo "[$preset]" > "$HOME/.config/input-remapper-2/presets/$mouse_name/kando.json"
+  sudo cp "$HOME/.config/input-remapper-2/presets/$mouse_name/kando.json" "/root/.config/input-remapper-2/presets/$mouse_name/" 2>/dev/null
+
+  # Create autoload config
+  cat > "$HOME/.config/input-remapper-2/config.json" << EOF
+{
+  "version": "2.1.1",
+  "autoload": {
+    "$mouse_name": "kando"
+  }
+}
+EOF
+  sudo cp "$HOME/.config/input-remapper-2/config.json" /root/.config/input-remapper-2/ 2>/dev/null
+
+  # Start and load
+  sudo systemctl restart input-remapper-daemon 2>/dev/null
+  sleep 1
+  input-remapper-control --command autoload 2>/dev/null
+
+  log_success "Middle mouse button → Ctrl+Space (Kando)"
+}
+
+# Optional extras menu
+setup_extras() {
+  echo ""
+  echo -e "${BOLD}  Optional Extras${NC}"
+  echo -e "${DIM}  ────────────────${NC}"
+  echo ""
+  echo -e "  ${DIM}Would you like to set up these optional extras?${NC}"
+  echo ""
+  echo -e "  ${CYAN}1)${NC} Kando pie menu (Ctrl+Space quick launcher)"
+  echo -e "  ${CYAN}2)${NC} Middle mouse button → Opens Kando"
+  echo -e "  ${CYAN}3)${NC} Both"
+  echo -e "  ${CYAN}4)${NC} Skip"
+  echo ""
+  read -r -p "  Choice [4]: " extras_choice
+  extras_choice="${extras_choice:-4}"
+
+  case "$extras_choice" in
+    1)
+      setup_kando
+      ;;
+    2)
+      setup_mouse_mapping
+      ;;
+    3)
+      setup_kando
+      setup_mouse_mapping
+      ;;
+    4|*)
+      log_info "Skipping extras"
+      ;;
+  esac
+}
+
 # Print success message
 print_success() {
   echo ""
@@ -208,6 +423,7 @@ main() {
   download_binary
   configure_path
   initial_config
+  setup_extras
 
   print_success
 }
