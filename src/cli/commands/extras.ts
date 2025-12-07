@@ -7,8 +7,8 @@ import { choose, confirm, EXTRAS_MENU_OPTIONS } from '../ui/menu';
 import { printSuccess, printError, printWarning, printInfo } from '../ui/table';
 import { getApiClient } from '../../lib/api';
 
-const KANDO_CONFIG_NAME = '__kando_menus__';
-const KANDO_SETTINGS_NAME = '__kando_config__';
+const KANDO_CONFIG_NAME = 'kando-menus';
+const KANDO_SETTINGS_NAME = 'kando-settings';
 
 function getKandoConfigPath(): string {
   // Check for Flatpak installation first
