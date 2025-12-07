@@ -106,20 +106,13 @@ download_binary() {
 
   local binary_path="$BIN_DIR/scripts-sync"
 
-  if [[ "$DOWNLOADER" == curl* ]]; then
-    curl -fsSL "$BINARY_URL" -o "$binary_path" 2>/dev/null || {
-      log_warning "Binary not available yet (no release). Skipping..."
-      return 0
-    }
+  # Use subshell to prevent set -e from exiting on curl failure
+  if (curl -fsSL "$BINARY_URL" -o "$binary_path" 2>/dev/null); then
+    chmod +x "$binary_path"
+    log_success "Downloaded scripts-sync binary"
   else
-    wget -qO "$binary_path" "$BINARY_URL" 2>/dev/null || {
-      log_warning "Binary not available yet (no release). Skipping..."
-      return 0
-    }
+    log_warning "Binary not available yet (no release). Skipping..."
   fi
-
-  chmod +x "$binary_path"
-  log_success "Downloaded scripts-sync binary"
 }
 
 # Configure PATH
