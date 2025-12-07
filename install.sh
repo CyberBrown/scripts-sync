@@ -19,7 +19,7 @@ INSTALL_DIR="$HOME/.scripts-sync"
 BIN_DIR="$INSTALL_DIR/.bin"
 CACHE_DIR="$INSTALL_DIR/cache"
 CONFIG_FILE="$INSTALL_DIR/config.json"
-BINARY_URL="${SCRIPTS_SYNC_URL:-https://github.com/your-org/scripts-sync/releases/latest/download/scripts-sync}"
+BINARY_URL="${SCRIPTS_SYNC_URL:-https://github.com/CyberBrown/scripts-sync/releases/latest/download/scripts-sync}"
 DEFAULT_SERVER="https://scripts-sync-api.solamp.workers.dev"
 
 # Banner
@@ -107,9 +107,15 @@ download_binary() {
   local binary_path="$BIN_DIR/scripts-sync"
 
   if [[ "$DOWNLOADER" == curl* ]]; then
-    curl -fsSL "$BINARY_URL" -o "$binary_path"
+    curl -fsSL "$BINARY_URL" -o "$binary_path" 2>/dev/null || {
+      log_warning "Binary not available yet (no release). Skipping..."
+      return 0
+    }
   else
-    wget -qO "$binary_path" "$BINARY_URL"
+    wget -qO "$binary_path" "$BINARY_URL" 2>/dev/null || {
+      log_warning "Binary not available yet (no release). Skipping..."
+      return 0
+    }
   fi
 
   chmod +x "$binary_path"
