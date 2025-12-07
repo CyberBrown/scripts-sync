@@ -24,19 +24,27 @@ DEFAULT_SERVER="https://scripts-sync-api.solamp.workers.dev"
 
 # Banner
 print_banner() {
+  local BRIGHT_MAGENTA='\e[95m'
+  local BRIGHT_CYAN='\e[96m'
+
   echo ""
-  echo -e "${CYAN}╔═══════════════════════════════════════════════════════════════════╗${NC}"
-  echo -e "${CYAN}║${NC}                                                                   ${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}   ${BOLD}░██████╗░█████╗░██████╗░██╗██████╗░████████╗░██████╗${NC}        ${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}   ${BOLD}██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝██╔════╝${NC}        ${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}   ${BOLD}╚█████╗░██║░░╚═╝██████╔╝██║██████╔╝░░░██║░░░╚█████╗░${NC}        ${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}   ${BOLD}░╚═══██╗██║░░██╗██╔══██╗██║██╔═══╝░░░░██║░░░░╚═══██╗${NC}        ${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}   ${BOLD}██████╔╝╚█████╔╝██║░░██║██║██║░░░░░░░░██║░░░██████╔╝${NC}        ${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}   ${BOLD}╚═════╝░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░░░░╚═╝░░░╚═════╝░${NC}        ${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}                                                                   ${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}                    ${GREEN}${BOLD}INSTALLATION${NC}                              ${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}               ${YELLOW}⚡${NC} ${BOLD}SYNC${NC} ${DIM}• POWERED BY${NC} ${MAGENTA}${BOLD}LOGOS FLUX${NC} ${YELLOW}⚡${NC}               ${CYAN}║${NC}"
-  echo -e "${CYAN}╚═══════════════════════════════════════════════════════════════════╝${NC}"
+  echo -e "${BRIGHT_MAGENTA}        ██╗      ██████╗  ██████╗  ██████╗ ███████╗${NC}"
+  echo -e "${BRIGHT_MAGENTA}        ██║     ██╔═══██╗██╔════╝ ██╔═══██╗██╔════╝${NC}"
+  echo -e "${MAGENTA}        ██║     ██║   ██║██║  ███╗██║   ██║███████╗${NC}"
+  echo -e "${MAGENTA}        ██║     ██║   ██║██║   ██║██║   ██║╚════██║${NC}"
+  echo -e "${MAGENTA}        ███████╗╚██████╔╝╚██████╔╝╚██████╔╝███████║${NC}"
+  echo -e "${MAGENTA}        ╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝${NC}"
+  echo ""
+  echo -e "${BRIGHT_CYAN}                ███████╗██╗     ██╗   ██╗██╗  ██╗${NC}"
+  echo -e "${BRIGHT_CYAN}                ██╔════╝██║     ██║   ██║╚██╗██╔╝${NC}"
+  echo -e "${CYAN}                █████╗  ██║     ██║   ██║ ╚███╔╝ ${NC}"
+  echo -e "${CYAN}                ██╔══╝  ██║     ██║   ██║ ██╔██╗ ${NC}"
+  echo -e "${CYAN}                ██║     ███████╗╚██████╔╝██╔╝ ██╗${NC}"
+  echo -e "${CYAN}                ╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝${NC}"
+  echo ""
+  echo -e "${DIM}                           Φ⥁○⧖∵${NC}"
+  echo ""
+  echo -e "${DIM}                  ⚡ scripts-sync installer ⚡${NC}"
   echo ""
 }
 
