@@ -1,12 +1,12 @@
 # Scripts Sync
 
-Cloud-synced script manager. Edit a script on terminal 1, it's immediately available on terminal 2 after a sync. One-word commands.
+Cloud-synced script manager powered by **Logos Flux**. Edit a script on terminal 1, it's immediately available on terminal 2 after a sync. One-word commands.
 
 ## Quick Start
 
 ```bash
 # Install
-curl -fsSL https://your-domain.com/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/CyberBrown/scripts-sync/master/install.sh | bash
 
 # Restart terminal, then authenticate
 scripts-sync auth
@@ -72,7 +72,7 @@ Config is stored in `~/.scripts-sync/config.json`:
 
 ```json
 {
-  "serverUrl": "https://scripts-sync-api.your-domain.workers.dev",
+  "serverUrl": "https://scripts-sync-api.solamp.workers.dev",
   "apiKey": "your-api-key",
   "deviceId": "machine-abc123"
 }
