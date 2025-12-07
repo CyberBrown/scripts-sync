@@ -128,6 +128,15 @@ bun run build
 bun run worker:dev
 ```
 
+## Optional Extras
+
+During installation, you can optionally set up:
+
+- **Kando Pie Menu** - Quick launcher triggered by Ctrl+Space with customizable shortcuts
+- **Middle Mouse → Kando** - Maps middle mouse button to open Kando for rapid access
+
+These are completely optional and can be skipped during install.
+
 ## License
 
 MIT
