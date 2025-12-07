@@ -1,0 +1,11 @@
+name = "scripts-sync-api"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "scripts-sync-db"
+database_id = "93de5145-f823-4cd6-b3f1-a98fbd2e240b"
+
+[vars]
+ENVIRONMENT = "production"

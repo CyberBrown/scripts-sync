@@ -1,0 +1,25 @@
+{
+  "name": "scripts-sync",
+  "version": "0.1.0",
+  "description": "Cloud-synced script manager - edit on one terminal, available everywhere",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/cli/index.ts",
+    "build": "bun build src/cli/index.ts --compile --outfile dist/scripts-sync",
+    "worker:dev": "cd worker && wrangler dev",
+    "worker:deploy": "cd worker && wrangler deploy",
+    "worker:db:init": "cd worker && wrangler d1 execute scripts-sync-db --local --file=src/db/schema.sql"
+  },
+  "bin": {
+    "scripts-sync": "./dist/scripts-sync"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "@types/bun": "^1.1.14",
+    "typescript": "^5.7.2",
+    "wrangler": "^3.93.0"
+  }
+}
