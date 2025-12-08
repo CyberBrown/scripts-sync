@@ -20,23 +20,42 @@ Personal environment sync tool powered by **Logos Flux**. Sync scripts, aliases,
                            Φ⥁○⧖∵
 ```
 
+## Install
+
+One command installs everything (Bun, dependencies, binary):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/CyberBrown/config-sync/master/install.sh | bash
+```
+
+The installer will:
+- Install [Bun](https://bun.sh) if not present
+- Clone and build the CLI
+- Set up `~/.config-sync/`
+- Add to your PATH
+- Prompt for your API key
+
+After install:
+```bash
+source ~/.bashrc   # or restart terminal
+cs sync            # sync your scripts
+cs list            # see what's available
+```
+
 ## Quick Start
 
 ```bash
-# Install
-curl -fsSL https://raw.githubusercontent.com/CyberBrown/config-sync/master/install.sh | bash
-
-# Restart terminal, then authenticate
-cs auth
-
-# Create your first script
-cs add spark
+# Create a new script
+cs add my-script
 
 # Install to PATH
-cs install spark
+cs install my-script
 
 # Run it
-spark
+my-script
+
+# Edit and sync
+cs edit my-script
 ```
 
 ## Commands
@@ -45,18 +64,17 @@ spark
 |---------|-------------|
 | `cs` | Interactive menu |
 | `cs list` | List all items with status |
-| `cs install <name>` | Install item to system |
-| `cs uninstall <name>` | Remove from system (keeps cache) |
+| `cs sync` | Bidirectional sync |
+| `cs install <name>` | Install item to PATH |
+| `cs uninstall <name>` | Remove from PATH |
 | `cs add <name>` | Create new item |
 | `cs edit <name>` | Edit existing item |
 | `cs remove <name>` | Delete from server |
 | `cs push [name]` | Upload local changes |
 | `cs pull [name]` | Download from server |
-| `cs sync` | Bidirectional sync |
 | `cs run <name>` | Run without installing |
 | `cs source <name>` | Output for eval |
 | `cs config` | Configure settings |
-| `cs auth` | Browser authentication |
 | `cs extras` | Kando config sync |
 
 ## Item Types
@@ -93,7 +111,7 @@ Config is stored in `~/.config-sync/config.json`:
 {
   "serverUrl": "https://config-sync-api.solamp.workers.dev",
   "apiKey": "your-api-key",
-  "deviceId": "machine-abc123"
+  "deviceId": "hostname-abc123"
 }
 ```
 
@@ -101,42 +119,45 @@ Config is stored in `~/.config-sync/config.json`:
 
 ```
 ~/.config-sync/
-  cache/           # Downloaded content
-    spark.sh
-    my-script.sh
-  .bin/            # Installed executables (in PATH)
-    spark
-    my-script
-  config.json      # Configuration
-  .last-sync       # Last sync timestamp
+├── .bin/            # Installed executables (in PATH)
+│   ├── cs           # The CLI itself
+│   └── my-script    # Your installed scripts
+├── cache/           # Downloaded content
+│   └── my-script.sh
+├── config.json      # Configuration
+└── .last-sync       # Last sync timestamp
 ```
 
 ## Architecture
 
-Config Sync is designed as two separate repos:
+Config Sync separates the engine from your personal data:
 
 1. **config-sync** (this repo) - The open-source sync engine
-2. **Your config library** (e.g., [chris-config](https://github.com/CyberBrown/chris-config)) - Your personal scripts, aliases, configs
+2. **Your config library** - Your personal scripts, aliases, configs
 
-This separation keeps the tool generic while your personal config remains yours.
+This keeps the tool generic while your personal config stays private.
 
-## Deploying Your Own Worker
+## Self-Hosting
 
-1. Create D1 database:
+Deploy your own Cloudflare Worker:
+
 ```bash
-cd worker
+# Clone the repo
+git clone https://github.com/CyberBrown/config-sync.git
+cd config-sync/worker
+
+# Create D1 database
 wrangler d1 create config-sync-db
-```
 
-2. Update `wrangler.toml` with your database ID
+# Update wrangler.toml with your database ID
 
-3. Initialize schema:
-```bash
+# Initialize schema
 wrangler d1 execute config-sync-db --file=src/db/schema.sql
-```
 
-4. Deploy:
-```bash
+# Add API key secret
+echo "your-secret-key" | wrangler secret put API_KEY
+
+# Deploy
 wrangler deploy
 ```
 
@@ -162,9 +183,9 @@ The `cs extras` command provides optional integrations:
 
 - **Kando push/pull** - Sync your Kando pie menu configuration across machines
 
-Kando must be installed separately via Flatpak:
 ```bash
 flatpak install flathub menu.kando.Kando
+cs extras  # then select kando push/pull
 ```
 
 ## License
