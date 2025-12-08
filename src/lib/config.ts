@@ -8,7 +8,7 @@ export interface Config {
   deviceId: string;
 }
 
-const CONFIG_DIR = join(homedir(), '.scripts-sync');
+const CONFIG_DIR = join(homedir(), '.config-sync');
 const CONFIG_FILE = join(CONFIG_DIR, 'config.json');
 const CACHE_DIR = join(CONFIG_DIR, 'cache');
 const BIN_DIR = join(CONFIG_DIR, '.bin');
@@ -38,7 +38,7 @@ export function loadConfig(): Config {
   ensureDirectories();
 
   const defaultConfig: Config = {
-    serverUrl: 'https://scripts-sync-api.solamp.workers.dev',
+    serverUrl: 'https://config-sync-api.solamp.workers.dev',
     deviceId: generateDeviceId(),
   };
 

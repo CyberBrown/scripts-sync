@@ -173,20 +173,18 @@ export async function confirm(prompt: string): Promise<boolean> {
 }
 
 export const MAIN_MENU_OPTIONS: MenuOption[] = [
-  { label: 'list', value: 'list', description: 'View all scripts' },
-  { label: 'install', value: 'install', description: 'Install a script' },
-  { label: 'edit', value: 'edit', description: 'Edit a script' },
+  { label: 'list', value: 'list', description: 'View all items' },
+  { label: 'install', value: 'install', description: 'Install an item' },
+  { label: 'edit', value: 'edit', description: 'Edit an item' },
   { label: 'sync', value: 'sync', description: 'Sync with server' },
-  { label: 'add', value: 'add', description: 'Create new script' },
-  { label: 'remove', value: 'remove', description: 'Delete a script' },
+  { label: 'add', value: 'add', description: 'Create new item' },
+  { label: 'remove', value: 'remove', description: 'Delete an item' },
   { label: 'config', value: 'config', description: 'Configure settings' },
-  { label: 'extras', value: 'extras', description: 'Kando menu & other tools' },
+  { label: 'extras', value: 'extras', description: 'Kando sync & other tools' },
 ];
 
 export const EXTRAS_MENU_OPTIONS: MenuOption[] = [
-  { label: 'kando setup', value: 'kando-setup', description: 'Install & configure Kando pie menu' },
   { label: 'kando push', value: 'kando-push', description: 'Upload Kando config to cloud' },
   { label: 'kando pull', value: 'kando-pull', description: 'Download Kando config from cloud' },
-  { label: 'mouse mapping', value: 'mouse-setup', description: 'Map middle mouse to Ctrl+Space' },
   { label: 'back', value: 'back', description: 'Return to main menu' },
 ];

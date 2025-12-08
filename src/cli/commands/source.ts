@@ -3,10 +3,10 @@ import { getCachedScript, getCacheContent } from '../../lib/cache';
 
 export async function sourceCommand(name: string): Promise<void> {
   if (!name) {
-    console.error('Usage: scripts-sync source <name>');
+    console.error('Usage: cs source <name>');
     console.error('');
     console.error('Output script content for sourcing into current shell.');
-    console.error('Example: eval "$(scripts-sync source my-aliases)"');
+    console.error('Example: eval "$(cs source my-aliases)"');
     process.exit(1);
   }
 
@@ -26,7 +26,7 @@ export async function sourceCommand(name: string): Promise<void> {
     // Warn if not a source type script
     if (cached.script_type === 'executable') {
       console.error(`# Warning: '${name}' is an executable script, not a source script.`);
-      console.error(`# Consider using 'scripts-sync run ${name}' instead.`);
+      console.error(`# Consider using 'cs run ${name}' instead.`);
     }
 
     const content = getCacheContent(name);

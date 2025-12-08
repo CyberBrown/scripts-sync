@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Scripts Sync Installer
-# curl -fsSL https://your-domain.com/install.sh | bash
+# Config Sync Installer
+# curl -fsSL https://raw.githubusercontent.com/CyberBrown/config-sync/master/install.sh | bash
 
 set -euo pipefail
 
@@ -15,12 +15,12 @@ DIM='\033[2m'
 NC='\033[0m' # No Color
 
 # Configuration
-INSTALL_DIR="$HOME/.scripts-sync"
+INSTALL_DIR="$HOME/.config-sync"
 BIN_DIR="$INSTALL_DIR/.bin"
 CACHE_DIR="$INSTALL_DIR/cache"
 CONFIG_FILE="$INSTALL_DIR/config.json"
-BINARY_URL="${SCRIPTS_SYNC_URL:-https://github.com/CyberBrown/scripts-sync/releases/latest/download/scripts-sync}"
-DEFAULT_SERVER="https://scripts-sync-api.solamp.workers.dev"
+BINARY_URL="${CONFIG_SYNC_URL:-https://github.com/CyberBrown/config-sync/releases/latest/download/config-sync}"
+DEFAULT_SERVER="https://config-sync-api.solamp.workers.dev"
 
 # Banner
 print_banner() {
@@ -44,7 +44,7 @@ print_banner() {
   echo ""
   echo -e "${DIM}                           Φ⥁○⧖∵${NC}"
   echo ""
-  echo -e "${DIM}                  ⚡ scripts-sync installer ⚡${NC}"
+  echo -e "${DIM}                   ⚡ config-sync installer ⚡${NC}"
   echo ""
 }
 
@@ -110,14 +110,14 @@ create_directories() {
 
 # Download binary
 download_binary() {
-  log_info "Downloading scripts-sync..."
+  log_info "Downloading config-sync..."
 
-  local binary_path="$BIN_DIR/scripts-sync"
+  local binary_path="$BIN_DIR/cs"
 
   # Use subshell to prevent set -e from exiting on curl failure
   if (curl -fsSL "$BINARY_URL" -o "$binary_path" 2>/dev/null); then
     chmod +x "$binary_path"
-    log_success "Downloaded scripts-sync binary"
+    log_success "Downloaded config-sync binary"
   else
     log_warning "Binary not available yet (no release). Skipping..."
   fi
@@ -131,12 +131,12 @@ configure_path() {
   log_info "Configuring PATH in $shell_config..."
 
   local path_line='
-# Scripts Sync
-export PATH="$HOME/.scripts-sync/.bin:$PATH"
+# Config Sync
+export PATH="$HOME/.config-sync/.bin:$PATH"
 '
 
   # Check if already configured
-  if grep -q ".scripts-sync/.bin" "$shell_config" 2>/dev/null; then
+  if grep -q ".config-sync/.bin" "$shell_config" 2>/dev/null; then
     log_success "PATH already configured"
   else
     echo "$path_line" >> "$shell_config"
@@ -179,221 +179,6 @@ EOF
   log_success "Configuration saved"
 }
 
-# Setup Kando pie menu
-setup_kando() {
-  echo ""
-  echo -e "${BOLD}  Kando Pie Menu Setup${NC}"
-  echo -e "${DIM}  ─────────────────────${NC}"
-  echo ""
-
-  # Check if Kando is installed
-  if ! flatpak list 2>/dev/null | grep -q "menu.kando.Kando"; then
-    echo -e "${DIM}  Installing Kando via Flatpak...${NC}"
-    flatpak install -y flathub menu.kando.Kando 2>/dev/null || {
-      log_warning "Could not install Kando. Install manually from flathub."
-      return 1
-    }
-  fi
-
-  local KANDO_CONFIG="$HOME/.var/app/menu.kando.Kando/config/kando"
-  mkdir -p "$KANDO_CONFIG/icon-themes/custom"
-
-  # Download Proton Pass icon if available
-  if [ -f "/usr/share/pixmaps/proton-pass.png" ]; then
-    cp /usr/share/pixmaps/proton-pass.png "$KANDO_CONFIG/icon-themes/custom/proton-pass.svg" 2>/dev/null
-  fi
-
-  # Create menus.json with useful defaults
-  cat > "$KANDO_CONFIG/menus.json" << 'KANDOEOF'
-{
-  "menus": [
-    {
-      "shortcut": "Control+Space",
-      "shortcutID": "main-menu",
-      "centered": false,
-      "root": {
-        "type": "submenu",
-        "name": "Quick Menu",
-        "icon": "apps",
-        "iconTheme": "material-symbols-rounded",
-        "children": [
-          {
-            "type": "command",
-            "name": "Terminal",
-            "icon": "terminal",
-            "iconTheme": "material-symbols-rounded",
-            "data": {
-              "command": "x-terminal-emulator"
-            }
-          },
-          {
-            "type": "command",
-            "name": "Browser",
-            "icon": "globe",
-            "iconTheme": "material-symbols-rounded",
-            "data": {
-              "command": "x-www-browser"
-            }
-          },
-          {
-            "type": "command",
-            "name": "Files",
-            "icon": "folder_open",
-            "iconTheme": "material-symbols-rounded",
-            "data": {
-              "command": "xdg-open ~"
-            }
-          },
-          {
-            "type": "command",
-            "name": "Settings",
-            "icon": "settings",
-            "iconTheme": "material-symbols-rounded",
-            "data": {
-              "command": "gnome-control-center"
-            }
-          },
-          {
-            "type": "submenu",
-            "name": "Web Links",
-            "icon": "public",
-            "iconTheme": "material-symbols-rounded",
-            "children": [
-              {
-                "type": "uri",
-                "name": "GitHub",
-                "icon": "github",
-                "iconTheme": "simple-icons",
-                "data": {
-                  "uri": "https://github.com"
-                }
-              },
-              {
-                "type": "uri",
-                "name": "Claude",
-                "icon": "anthropic",
-                "iconTheme": "simple-icons",
-                "data": {
-                  "uri": "https://claude.ai/new"
-                }
-              }
-            ]
-          }
-        ]
-      }
-    }
-  ],
-  "collections": []
-}
-KANDOEOF
-
-  log_success "Kando configured (Ctrl+Space to open)"
-}
-
-# Setup middle mouse button mapping
-setup_mouse_mapping() {
-  echo ""
-  echo -e "${BOLD}  Mouse Button Mapping${NC}"
-  echo -e "${DIM}  ─────────────────────${NC}"
-  echo ""
-
-  # Check if input-remapper is installed
-  if ! command -v input-remapper-control &> /dev/null; then
-    echo -e "${DIM}  Installing input-remapper...${NC}"
-    sudo apt install -y input-remapper 2>/dev/null || {
-      log_warning "Could not install input-remapper. Install manually."
-      return 1
-    }
-  fi
-
-  # Detect mouse device
-  local mouse_name
-  mouse_name=$(grep -E "^N:" /proc/bus/input/devices | grep -i mouse | head -1 | sed 's/N: Name="//' | sed 's/"//')
-
-  if [ -z "$mouse_name" ]; then
-    mouse_name=$(grep -B1 "mouse0" /proc/bus/input/devices | grep "N: Name" | sed 's/N: Name="//' | sed 's/"//')
-  fi
-
-  if [ -z "$mouse_name" ]; then
-    log_warning "Could not detect mouse. Configure manually with input-remapper-gtk"
-    return 1
-  fi
-
-  log_info "Detected mouse: $mouse_name"
-
-  # Create config directories
-  mkdir -p "$HOME/.config/input-remapper-2/presets/$mouse_name"
-  sudo mkdir -p "/root/.config/input-remapper-2/presets/$mouse_name" 2>/dev/null
-
-  # Create preset for middle click -> Ctrl+Space
-  local preset='{
-    "input_combination": [
-      {
-        "type": 1,
-        "code": 274,
-        "origin_hash": "'"$mouse_name"'"
-      }
-    ],
-    "target_uinput": "keyboard",
-    "output_symbol": "KEY_LEFTCTRL + KEY_SPACE",
-    "mapping_type": "key_macro"
-  }'
-
-  echo "[$preset]" > "$HOME/.config/input-remapper-2/presets/$mouse_name/kando.json"
-  sudo cp "$HOME/.config/input-remapper-2/presets/$mouse_name/kando.json" "/root/.config/input-remapper-2/presets/$mouse_name/" 2>/dev/null
-
-  # Create autoload config
-  cat > "$HOME/.config/input-remapper-2/config.json" << EOF
-{
-  "version": "2.1.1",
-  "autoload": {
-    "$mouse_name": "kando"
-  }
-}
-EOF
-  sudo cp "$HOME/.config/input-remapper-2/config.json" /root/.config/input-remapper-2/ 2>/dev/null
-
-  # Start and load
-  sudo systemctl restart input-remapper-daemon 2>/dev/null
-  sleep 1
-  input-remapper-control --command autoload 2>/dev/null
-
-  log_success "Middle mouse button → Ctrl+Space (Kando)"
-}
-
-# Optional extras menu
-setup_extras() {
-  echo ""
-  echo -e "${BOLD}  Optional Extras${NC}"
-  echo -e "${DIM}  ────────────────${NC}"
-  echo ""
-  echo -e "  ${DIM}Would you like to set up these optional extras?${NC}"
-  echo ""
-  echo -e "  ${CYAN}1)${NC} Kando pie menu (Ctrl+Space quick launcher)"
-  echo -e "  ${CYAN}2)${NC} Middle mouse button → Opens Kando"
-  echo -e "  ${CYAN}3)${NC} Both"
-  echo -e "  ${CYAN}4)${NC} Skip"
-  echo ""
-  read -r -p "  Choice [4]: " extras_choice
-  extras_choice="${extras_choice:-4}"
-
-  case "$extras_choice" in
-    1)
-      setup_kando
-      ;;
-    2)
-      setup_mouse_mapping
-      ;;
-    3)
-      setup_kando
-      setup_mouse_mapping
-      ;;
-    4|*)
-      log_info "Skipping extras"
-      ;;
-  esac
-}
-
 # Print success message
 print_success() {
   echo ""
@@ -409,15 +194,15 @@ print_success() {
   echo -e "     ${CYAN}source $(detect_shell_config)${NC}"
   echo ""
   echo -e "  ${DIM}2. Configure authentication:${NC}"
-  echo -e "     ${CYAN}scripts-sync auth${NC}    ${DIM}# Browser auth${NC}"
-  echo -e "     ${CYAN}scripts-sync config${NC}  ${DIM}# Manual setup${NC}"
+  echo -e "     ${CYAN}cs auth${NC}    ${DIM}# Browser auth${NC}"
+  echo -e "     ${CYAN}cs config${NC}  ${DIM}# Manual setup${NC}"
   echo ""
   echo -e "  ${DIM}3. Start syncing:${NC}"
-  echo -e "     ${CYAN}scripts-sync list${NC}    ${DIM}# View scripts${NC}"
-  echo -e "     ${CYAN}scripts-sync sync${NC}    ${DIM}# Sync all${NC}"
-  echo -e "     ${CYAN}scripts-sync add my-script${NC}  ${DIM}# Create new${NC}"
+  echo -e "     ${CYAN}cs list${NC}    ${DIM}# View items${NC}"
+  echo -e "     ${CYAN}cs sync${NC}    ${DIM}# Sync all${NC}"
+  echo -e "     ${CYAN}cs add my-script${NC}  ${DIM}# Create new${NC}"
   echo ""
-  echo -e "  ${DIM}Run ${CYAN}scripts-sync --help${DIM} for all commands.${NC}"
+  echo -e "  ${DIM}Run ${CYAN}cs --help${DIM} for all commands.${NC}"
   echo ""
 }
 
@@ -430,7 +215,6 @@ main() {
   download_binary
   configure_path
   initial_config
-  setup_extras
 
   print_success
 }

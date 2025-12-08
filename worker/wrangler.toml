@@ -1,11 +1,17 @@
-name = "scripts-sync-api"
+name = "config-sync-api"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
 
+# NOTE: For migration, you'll need to:
+# 1. Create new D1 database: wrangler d1 create config-sync-db
+# 2. Update the database_id below with the new ID
+# 3. Run migration to copy existing data (see worker/migrations/)
+# 4. Deploy new worker: wrangler deploy
+
 [[d1_databases]]
 binding = "DB"
-database_name = "scripts-sync-db"
-database_id = "93de5145-f823-4cd6-b3f1-a98fbd2e240b"
+database_name = "config-sync-db"
+database_id = "26b56823-bff1-4c26-99e7-18415e71d702"
 
 [vars]
 ENVIRONMENT = "production"

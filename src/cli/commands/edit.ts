@@ -42,7 +42,7 @@ export async function editCommand(name?: string): Promise<void> {
     const script = await pullScript(scriptName);
 
     // Create temp file
-    const tmpFile = join(tmpdir(), `scripts-sync-${scriptName}-${Date.now()}.sh`);
+    const tmpFile = join(tmpdir(), `config-sync-${scriptName}-${Date.now()}.sh`);
     writeFileSync(tmpFile, script.content);
 
     // Open in editor

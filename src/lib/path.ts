@@ -33,7 +33,7 @@ export function installScript(name: string): boolean {
   // This allows updates to take effect immediately without reinstalling
   if (cached.script_type === 'executable') {
     const wrapper = `#!/usr/bin/env bash
-# scripts-sync wrapper for: ${name}
+# config-sync wrapper for: ${name}
 exec bash "${cachePath}" "$@"
 `;
     writeFileSync(binPath, wrapper);
@@ -81,7 +81,7 @@ export function checkPathSetup(): { configured: boolean; shellFile: string | nul
     const filePath = join(home, file);
     if (existsSync(filePath)) {
       const content = readFileSync(filePath, 'utf-8');
-      if (content.includes('.scripts-sync/.bin')) {
+      if (content.includes('.config-sync/.bin')) {
         return { configured: true, shellFile: filePath };
       }
     }
@@ -102,7 +102,7 @@ export function getRecommendedShellFile(): string {
 
 export function getPathExportLine(): string {
   return `
-# Scripts Sync
-export PATH="$HOME/.scripts-sync/.bin:$PATH"
+# Config Sync
+export PATH="$HOME/.config-sync/.bin:$PATH"
 `;
 }

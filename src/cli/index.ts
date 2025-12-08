@@ -21,7 +21,7 @@ import { configCommand } from './commands/config';
 import { authCommand } from './commands/auth';
 import { extrasCommand } from './commands/extras';
 
-const VERSION = '0.2.0';
+const VERSION = '0.3.0';
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -32,7 +32,7 @@ async function main(): Promise<void> {
 
   // Handle version flag
   if (command === '-v' || command === '--version') {
-    console.log(`scripts-sync v${VERSION}`);
+    console.log(`config-sync v${VERSION}`);
     process.exit(0);
   }
 
@@ -46,11 +46,11 @@ async function main(): Promise<void> {
   const needsConfig = !['config', 'auth', '-v', '--version', '-h', '--help', 'help'].includes(command);
   if (needsConfig && !isConfigured()) {
     printBanner('small');
-    printWarning('Scripts Sync is not configured.');
+    printWarning('Config Sync is not configured.');
     console.log();
     console.log(chalk.dim('  Run one of the following to get started:'));
-    console.log(chalk.cyan('    scripts-sync config') + chalk.dim('  - Set up manually'));
-    console.log(chalk.cyan('    scripts-sync auth') + chalk.dim('    - Browser authentication'));
+    console.log(chalk.cyan('    cs config') + chalk.dim('  - Set up manually'));
+    console.log(chalk.cyan('    cs auth') + chalk.dim('    - Browser authentication'));
     console.log();
     process.exit(1);
   }
@@ -135,7 +135,7 @@ async function main(): Promise<void> {
 
     default:
       printError(`Unknown command: ${command}`);
-      console.log(chalk.dim('  Run `scripts-sync --help` for usage.'));
+      console.log(chalk.dim('  Run `cs --help` for usage.'));
       process.exit(1);
   }
 }
@@ -184,16 +184,16 @@ function printHelp(): void {
   printBanner('small');
 
   console.log(chalk.bold('  Usage:'));
-  console.log(chalk.dim('    scripts-sync [command] [options]'));
+  console.log(chalk.dim('    cs [command] [options]'));
   console.log();
 
   console.log(chalk.bold('  Commands:'));
-  console.log(`    ${chalk.cyan('list')}              List all scripts with status`);
-  console.log(`    ${chalk.cyan('install')} <name>    Install script to PATH`);
-  console.log(`    ${chalk.cyan('uninstall')} <name>  Remove from PATH (keeps cache)`);
-  console.log(`    ${chalk.cyan('add')} <name>        Create new script`);
-  console.log(`    ${chalk.cyan('edit')} <name>       Edit existing script`);
-  console.log(`    ${chalk.cyan('remove')} <name>     Delete script from server`);
+  console.log(`    ${chalk.cyan('list')}              List all items with status`);
+  console.log(`    ${chalk.cyan('install')} <name>    Install item to system`);
+  console.log(`    ${chalk.cyan('uninstall')} <name>  Remove from system (keeps cache)`);
+  console.log(`    ${chalk.cyan('add')} <name>        Create new item`);
+  console.log(`    ${chalk.cyan('edit')} <name>       Edit existing item`);
+  console.log(`    ${chalk.cyan('remove')} <name>     Delete item from server`);
   console.log(`    ${chalk.cyan('push')} [name]       Upload local changes`);
   console.log(`    ${chalk.cyan('pull')} [name]       Download from server`);
   console.log(`    ${chalk.cyan('sync')}              Bidirectional sync`);
@@ -201,17 +201,17 @@ function printHelp(): void {
   console.log(`    ${chalk.cyan('source')} <name>     Output for eval (functions/aliases)`);
   console.log(`    ${chalk.cyan('config')}            Configure settings`);
   console.log(`    ${chalk.cyan('auth')}              Browser-based authentication`);
-  console.log(`    ${chalk.cyan('extras')}            Kando pie menu & other tools`);
+  console.log(`    ${chalk.cyan('extras')}            Kando sync & other tools`);
   console.log();
 
   console.log(chalk.bold('  Examples:'));
-  console.log(chalk.dim('    scripts-sync                    # Interactive menu'));
-  console.log(chalk.dim('    scripts-sync list               # Show all scripts'));
-  console.log(chalk.dim('    scripts-sync add spark          # Create new script'));
-  console.log(chalk.dim('    scripts-sync install spark      # Add to PATH'));
-  console.log(chalk.dim('    spark                           # Run installed script'));
-  console.log(chalk.dim('    scripts-sync edit spark         # Edit and sync'));
-  console.log(chalk.dim('    eval "$(scripts-sync source aliases)"  # Load aliases'));
+  console.log(chalk.dim('    cs                    # Interactive menu'));
+  console.log(chalk.dim('    cs list               # Show all items'));
+  console.log(chalk.dim('    cs add spark          # Create new script'));
+  console.log(chalk.dim('    cs install spark      # Add to PATH'));
+  console.log(chalk.dim('    spark                 # Run installed script'));
+  console.log(chalk.dim('    cs edit spark         # Edit and sync'));
+  console.log(chalk.dim('    eval "$(cs source aliases)"  # Load aliases'));
   console.log();
 
   console.log(chalk.bold('  Version:'));

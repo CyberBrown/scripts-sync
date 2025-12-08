@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 
-const VERSION = '0.1.0';
+const VERSION = '0.3.0';
 
 export const LOGOS_FLUX_BANNER = `
 ${chalk.magentaBright('        ██╗      ██████╗  ██████╗  ██████╗ ███████╗')}
@@ -24,7 +24,7 @@ export const BANNER_LARGE = LOGOS_FLUX_BANNER;
 
 export const BANNER_SMALL = `
 ${chalk.cyan('┌─────────────────────────────────────┐')}
-${chalk.cyan('│')}  ${chalk.yellow('⚡')} ${chalk.bold.white('Scripts Sync')} ${chalk.dim('by Logos Flux')}    ${chalk.cyan('│')}
+${chalk.cyan('│')}  ${chalk.yellow('⚡')} ${chalk.bold.white('Config Sync')} ${chalk.dim('by Logos Flux')}     ${chalk.cyan('│')}
 ${chalk.cyan('└─────────────────────────────────────┘')}
 `;
 
@@ -45,7 +45,7 @@ ${chalk.cyan('                ╚═╝     ╚══════╝ ╚══�
 
 ${chalk.dim('                           Φ⥁○⧖∵')}
 
-${chalk.dim(`                    ⚡ scripts-sync v${VERSION} ⚡`)}
+${chalk.dim(`                     ⚡ config-sync v${VERSION} ⚡`)}
 ${chalk.green.bold('                        INSTALLED')}
 `;
 
@@ -66,7 +66,7 @@ ${chalk.cyan('                ╚═╝     ╚══════╝ ╚══�
 
 ${chalk.dim('                           Φ⥁○⧖∵')}
 
-${chalk.dim(`                    ⚡ scripts-sync v${VERSION} ⚡`)}
+${chalk.dim(`                     ⚡ config-sync v${VERSION} ⚡`)}
 ${chalk.blue.bold('                         UPDATED')}
 `;
 

@@ -45,7 +45,7 @@ function formatStatus(status: ScriptStatus['status']): string {
 export function printScriptTable(scripts: ScriptStatus[]): void {
   if (scripts.length === 0) {
     console.log(chalk.dim('  No scripts found.'));
-    console.log(chalk.dim('  Run `scripts-sync add <name>` to create one.'));
+    console.log(chalk.dim('  Run `cs add <name>` to create one.'));
     return;
   }
 
@@ -101,7 +101,7 @@ export function printSyncResult(result: {
   }
   if (conflicts.length > 0) {
     console.log(chalk.yellow(`  ⚠ Conflicts: ${conflicts.map((c) => c.name).join(', ')}`));
-    console.log(chalk.dim('    Use `scripts-sync edit <name>` to resolve'));
+    console.log(chalk.dim('    Use `cs edit <name>` to resolve'));
   }
   if (errors.length > 0) {
     for (const err of errors) {

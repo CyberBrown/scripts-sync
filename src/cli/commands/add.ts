@@ -67,7 +67,7 @@ export async function addCommand(name?: string): Promise<void> {
     }
 
     // Create temp file with template
-    const tmpFile = join(tmpdir(), `scripts-sync-${scriptName}-${Date.now()}.sh`);
+    const tmpFile = join(tmpdir(), `config-sync-${scriptName}-${Date.now()}.sh`);
     const template = SCRIPT_TEMPLATE
       .replace(/{name}/g, scriptName)
       .replace(/{description}/g, description || 'No description')
@@ -118,7 +118,7 @@ export async function addCommand(name?: string): Promise<void> {
     saveToCache(script);
 
     printSuccess(`Created script '${scriptName}'.`);
-    console.log(chalk.dim(`  Run 'scripts-sync install ${scriptName}' to add to PATH.`));
+    console.log(chalk.dim(`  Run 'cs install ${scriptName}' to add to PATH.`));
   } catch (error) {
     printError(error instanceof Error ? error.message : 'Failed to create script');
     process.exit(1);

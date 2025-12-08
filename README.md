@@ -1,21 +1,39 @@
-# Scripts Sync
+# Config Sync
 
-Cloud-synced script manager powered by **Logos Flux**. Edit a script on terminal 1, it's immediately available on terminal 2 after a sync. One-word commands.
+Personal environment sync tool powered by **Logos Flux**. Sync scripts, aliases, functions, and config files across machines via Cloudflare D1. Edit on one terminal, available everywhere after a sync.
+
+```
+        ██╗      ██████╗  ██████╗  ██████╗ ███████╗
+        ██║     ██╔═══██╗██╔════╝ ██╔═══██╗██╔════╝
+        ██║     ██║   ██║██║  ███╗██║   ██║███████╗
+        ██║     ██║   ██║██║   ██║██║   ██║╚════██║
+        ███████╗╚██████╔╝╚██████╔╝╚██████╔╝███████║
+        ╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝
+
+                ███████╗██╗     ██╗   ██╗██╗  ██╗
+                ██╔════╝██║     ██║   ██║╚██╗██╔╝
+                █████╗  ██║     ██║   ██║ ╚███╔╝
+                ██╔══╝  ██║     ██║   ██║ ██╔██╗
+                ██║     ███████╗╚██████╔╝██╔╝ ██╗
+                ╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝
+
+                           Φ⥁○⧖∵
+```
 
 ## Quick Start
 
 ```bash
 # Install
-curl -fsSL https://raw.githubusercontent.com/CyberBrown/scripts-sync/master/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/CyberBrown/config-sync/master/install.sh | bash
 
 # Restart terminal, then authenticate
-scripts-sync auth
+cs auth
 
 # Create your first script
-scripts-sync add spark
+cs add spark
 
 # Install to PATH
-scripts-sync install spark
+cs install spark
 
 # Run it
 spark
@@ -25,22 +43,23 @@ spark
 
 | Command | Description |
 |---------|-------------|
-| `scripts-sync` | Interactive menu |
-| `scripts-sync list` | List all scripts with status |
-| `scripts-sync install <name>` | Install script to PATH |
-| `scripts-sync uninstall <name>` | Remove from PATH (keeps cache) |
-| `scripts-sync add <name>` | Create new script |
-| `scripts-sync edit <name>` | Edit existing script |
-| `scripts-sync remove <name>` | Delete from server |
-| `scripts-sync push [name]` | Upload local changes |
-| `scripts-sync pull [name]` | Download from server |
-| `scripts-sync sync` | Bidirectional sync |
-| `scripts-sync run <name>` | Run without installing |
-| `scripts-sync source <name>` | Output for eval |
-| `scripts-sync config` | Configure settings |
-| `scripts-sync auth` | Browser authentication |
+| `cs` | Interactive menu |
+| `cs list` | List all items with status |
+| `cs install <name>` | Install item to system |
+| `cs uninstall <name>` | Remove from system (keeps cache) |
+| `cs add <name>` | Create new item |
+| `cs edit <name>` | Edit existing item |
+| `cs remove <name>` | Delete from server |
+| `cs push [name]` | Upload local changes |
+| `cs pull [name]` | Download from server |
+| `cs sync` | Bidirectional sync |
+| `cs run <name>` | Run without installing |
+| `cs source <name>` | Output for eval |
+| `cs config` | Configure settings |
+| `cs auth` | Browser authentication |
+| `cs extras` | Kando config sync |
 
-## Script Types
+## Item Types
 
 - **executable** (default): Standalone scripts that run in a subshell
 - **source**: Scripts with functions/aliases to load into your shell
@@ -50,29 +69,29 @@ spark
 
 ```bash
 # Load aliases/functions into your shell
-eval "$(scripts-sync source my-aliases)"
+eval "$(cs source my-aliases)"
 
 # Add to .bashrc/.zshrc for auto-load
-echo 'eval "$(scripts-sync source my-aliases)"' >> ~/.bashrc
+echo 'eval "$(cs source my-aliases)"' >> ~/.bashrc
 ```
 
 ## Status Indicators
 
 | Status | Meaning |
 |--------|---------|
-| `installed` | In PATH, ready to run |
-| `cached` | Downloaded, not in PATH |
+| `installed` | Ready to run |
+| `cached` | Downloaded, not installed |
 | `not synced` | On server, not downloaded |
 | `local only` | Local changes not pushed |
 | `modified` | Local differs from server |
 
 ## Configuration
 
-Config is stored in `~/.scripts-sync/config.json`:
+Config is stored in `~/.config-sync/config.json`:
 
 ```json
 {
-  "serverUrl": "https://scripts-sync-api.solamp.workers.dev",
+  "serverUrl": "https://config-sync-api.solamp.workers.dev",
   "apiKey": "your-api-key",
   "deviceId": "machine-abc123"
 }
@@ -81,8 +100,8 @@ Config is stored in `~/.scripts-sync/config.json`:
 ## Local Files
 
 ```
-~/.scripts-sync/
-  cache/           # Downloaded script content
+~/.config-sync/
+  cache/           # Downloaded content
     spark.sh
     my-script.sh
   .bin/            # Installed executables (in PATH)
@@ -92,19 +111,28 @@ Config is stored in `~/.scripts-sync/config.json`:
   .last-sync       # Last sync timestamp
 ```
 
-## Deploying the Worker
+## Architecture
+
+Config Sync is designed as two separate repos:
+
+1. **config-sync** (this repo) - The open-source sync engine
+2. **Your config library** (e.g., [chris-config](https://github.com/CyberBrown/chris-config)) - Your personal scripts, aliases, configs
+
+This separation keeps the tool generic while your personal config remains yours.
+
+## Deploying Your Own Worker
 
 1. Create D1 database:
 ```bash
 cd worker
-wrangler d1 create scripts-sync-db
+wrangler d1 create config-sync-db
 ```
 
-2. Update `wrangler.toml` with database ID
+2. Update `wrangler.toml` with your database ID
 
 3. Initialize schema:
 ```bash
-wrangler d1 execute scripts-sync-db --file=src/db/schema.sql
+wrangler d1 execute config-sync-db --file=src/db/schema.sql
 ```
 
 4. Deploy:
@@ -128,14 +156,16 @@ bun run build
 bun run worker:dev
 ```
 
-## Optional Extras
+## Extras
 
-During installation, you can optionally set up:
+The `cs extras` command provides optional integrations:
 
-- **Kando Pie Menu** - Quick launcher triggered by Ctrl+Space with customizable shortcuts
-- **Middle Mouse → Kando** - Maps middle mouse button to open Kando for rapid access
+- **Kando push/pull** - Sync your Kando pie menu configuration across machines
 
-These are completely optional and can be skipped during install.
+Kando must be installed separately via Flatpak:
+```bash
+flatpak install flathub menu.kando.Kando
+```
 
 ## License
 
