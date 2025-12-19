@@ -1,4 +1,34 @@
-# Config Sync
+# ⚠️ ARCHIVED - Replaced by Chezmoi
+
+> **This project has been superseded by [chezmoi](https://www.chezmoi.io/) for dotfile management.**
+>
+> **New repo:** [CyberBrown/dotfiles](https://github.com/CyberBrown/dotfiles)
+
+## Why the change?
+
+- Chezmoi is a mature, well-maintained dotfile manager
+- Works on all machines via git (SSH) - no custom API needed
+- Better templating and machine-type support
+- Active community and documentation
+
+## Migration
+
+To set up the new dotfiles on a fresh machine:
+
+```bash
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:CyberBrown/dotfiles.git -b ~/.local/bin
+source ~/.bashrc
+```
+
+The new setup includes:
+- All synced scripts (yolo, wrap-up, get-started, rterm, spark)
+- Bash aliases
+- MCP Manager for Claude Code server management
+- Core package installation
+
+---
+
+# Config Sync (Legacy)
 
 Personal environment sync tool powered by **Logos Flux**. Sync scripts, aliases, functions, and config files across machines via Cloudflare D1. Edit on one terminal, available everywhere after a sync.
 
